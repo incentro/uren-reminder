@@ -18,5 +18,9 @@ func main() {
 			log.Fatal("Unable to send message to Slack", err)
 			return
 		}
+		println("Reminder successfully sent")
+		return
 	}
+
+	println("No need to send reminder")
 }

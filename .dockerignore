@@ -1,0 +1,48 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+
+# Output of the build
+/bin
+/build
+/app/uren-reminder-bot
+
+# Temporary files
+*.tmp
+*.log
+
+# Go specific
+*.out
+*.a
+*.o
+*.h
+*.cgo1.go
+*.cgo2.c
+_cgo_defun.c
+_cgo_gotypes.go
+_cgo_export.*
+_testmain.go
+
+# IDE specific
+.idea/
+.vscode/
+*.swp
+
+# OS generated files
+.DS_Store
+
+.editorconfig
+.git
+AUTHORS.md
+CONTRIBUTING.md
+LICENSE
+Makefile
+NOTICE
+README.md
+arm/
+powerpc/
+mips/

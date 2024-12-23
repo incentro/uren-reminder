@@ -32,6 +32,12 @@ func createBlock(msg string, url string) []slack.Block {
 				},
 			).WithStyle(slack.StylePrimary).WithURL(url),
 		),
+		slack.NewDividerBlock(),
+		slack.NewContextBlock("footer",
+			&slack.TextBlockObject{
+				Type: slack.PlainTextType,
+				Text: ":github: Geïnteresseerd in mijn code? Check https://github.com/incentro/uren-reminder.",
+			}),
 	}
 
 	return blocks

@@ -42,6 +42,9 @@ func getMessage(messageFile MessageFile, time time.Time) string {
 }
 
 func getRandomMessage(messages []string) string {
+	if len(messages) == 0 {
+		return ""
+	}
 	randomIndex := rand.Intn(len(messages))
 	return messages[randomIndex]
 }

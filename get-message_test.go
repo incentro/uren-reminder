@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"os"
 	"testing"
 	"time"
 )
@@ -27,6 +29,63 @@ func TestGetMessage(t *testing.T) {
 	for _, test := range getMessageTests {
 		if output := getMessage(test.arg1, test.arg2); output != test.expected {
 			t.Errorf("Ouput %s is not equal to expected %s for time %s", output, test.expected, test.arg1)
+		}
+	}
+}
+
+type getRandomMessageTest struct {
+	arg1     []string
+	expected string
+}
+
+var getRandomMessageTests = []getRandomMessageTest{
+	{[]string{}, ""},                   // Empty slice
+	{[]string{"Message1"}, "Message1"}, // Single message
+}
+
+func TestGetRandomMessage(t *testing.T) {
+	// Just testing here that a string is returned. Not necessarily that it's random.
+	for _, test := range getRandomMessageTests {
+		if output := getRandomMessage(test.arg1); output != test.expected {
+			t.Errorf("Output %s is not in expected %v for input %v", output, test.expected, test.arg1)
+		}
+	}
+}
+
+func TestGetMessagesFromFile(t *testing.T) {
+	validJSON := `{"weekly": ["Weekly message"], "monthly": ["Monthly message"]}`
+	validFileName := "valid_messages.json"
+	err := os.WriteFile(validFileName, []byte(validJSON), 0644)
+	if err != nil {
+		t.Fatalf("Failed to create valid JSON file: %v", err)
+	}
+	defer os.Remove(validFileName)
+
+	invalidJSON := `{"weekly": ["Weekly message"], "monthly": ["Monthly message"`
+	invalidFileName := "invalid_messages.json"
+	err = os.WriteFile(invalidFileName, []byte(invalidJSON), 0644)
+	if err != nil {
+		t.Fatalf("Failed to create invalid JSON file: %v", err)
+	}
+	defer os.Remove(invalidFileName)
+
+	tests := []struct {
+		fileName string
+		expected MessageFile
+		hasError bool
+	}{
+		{validFileName, MessageFile{Weekly: []string{"Weekly message"}, Monthly: []string{"Monthly message"}}, false},
+		{"non_existent_file.json", MessageFile{}, true},
+		{invalidFileName, MessageFile{}, true},
+	}
+
+	for _, test := range tests {
+		output, err := getMessagesFromFile(test.fileName)
+		if (err != nil) != test.hasError {
+			t.Errorf("Expected error: %v, got: %v", test.hasError, err)
+		}
+		if fmt.Sprint(output) != fmt.Sprint(test.expected) {
+			t.Errorf("Expected output: %v, got: %v", test.expected, output)
 		}
 	}
 }

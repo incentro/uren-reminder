@@ -14,6 +14,8 @@ This project is a Slack bot that sends reminder messages to a specified Slack ch
 - Go 1.18 or later
 - A Slack workspace and a bot token
 - A JSON file containing the messages
+- Install Docker for building and pushing container images 
+- Install Docker Compose version 2.32.1 or later for spinning the application up as a container locally 
 
 ## Installation
 
@@ -31,8 +33,14 @@ This project is a Slack bot that sends reminder messages to a specified Slack ch
    ```
 
 ## Configuration
+These configurations are also required when running the application as a docker container 
 
-Set the following environment variables:
+Create a `.env` file and copy the environment variables from `.env.dist` into it:
+```shell
+cp .env.dist .env
+```
+
+Configure the following environment variables with the appropriate values:
 
 - `SLACK_TOKEN`: Your Slack bot token
 - `SLACK_CHANNEL_ID`: The ID of the Slack channel where the bot will post messages
@@ -52,11 +60,22 @@ Set the following environment variables:
    }
    ```
 
-2. Run the bot:
+2. Run the bot directly:
 
    ```sh
    go run main.go
    ```
+
+3. Build and run the bot as a container locally: 
+   ```sh
+   docker compose up --build
+   ```
+
+> [!NOTE]
+> To remove the container and its attached volumes:
+> ```sh
+> docker compose down -v
+> ```
 
 ## Testing
 
@@ -73,6 +92,7 @@ go test ./...
 - `blocks_test.go`: Unit tests for `blocks.go`
 - `day-utils_test.go`: Additional utility tests
 - `input/messages.json`: JSON file containing the messages
+- `docker-compose.yml`: the docker compose file used for spinning up the container
 
 ## Contributing
 

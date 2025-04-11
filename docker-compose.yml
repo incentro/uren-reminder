@@ -1,0 +1,6 @@
+services:
+  reminder-bot:
+    build:
+      context: . 
+    env_file:
+    - .env
